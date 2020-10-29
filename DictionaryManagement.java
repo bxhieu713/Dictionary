@@ -1,3 +1,10 @@
+
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
@@ -6,6 +13,10 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+/**
+ *
+ * @author BHieu
+ */
 public class DictionaryManagement {
     Dictionary dictionary = new Dictionary();
     ArrayList<Word> dic = new ArrayList<Word>();
@@ -46,6 +57,7 @@ public class DictionaryManagement {
 
 
         } catch (FileNotFoundException e) {
+            System.out.println("Error");
             e.printStackTrace();
         }
     }
@@ -96,9 +108,9 @@ public class DictionaryManagement {
 
     public void dictionaryExportToFile() {
         try {
-            FileWriter fw = new FileWriter("D:\\Hoc\\Java\\BTL1\\src\\dictionary.txt");
+            FileWriter fw = new FileWriter("D:\\Hoc\\Java\\BTL1\\src\\dictionaries.txt");
             for (int i = 0; i < dic.size(); i++) {
-                fw.write('\n' + dic.get(i).getWord_target() + '\t' + dic.get(i).getWord_explain());
+                fw.write( dic.get(i).getWord_target() + '\t' + dic.get(i).getWord_explain() + '\n');
             }
             fw.close();
             System.out.println("Successfully wrote to the file.");
@@ -110,3 +122,4 @@ public class DictionaryManagement {
 
 
 }
+

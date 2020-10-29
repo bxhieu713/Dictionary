@@ -1,5 +1,4 @@
-aaa	đ
-abandon pro	bỏ, từ bỏ
+abandon	bỏ, từ bỏ
 abandoned	bị bỏ rơi, bị ruồng bỏ
 ability	khả năng, năng lực
 able	có năng lực, có tài
@@ -3144,7 +3143,7 @@ yellow	vàng; màu vàng
 yes	vâng, phải, có chứ
 yesterday	hôm qua
 yet	còn, hãy cỏn, còn nữa; như mà, xong, tuy thế, tuy nhiên
-you	/ju:/
+you	Bạn
 young	trẻ, trẻ tuổi, thanh niên
 yours	cái của anh, cái của chị, cái của ngài, cái của mày; cái của các anh, cái của các chị, cái của các ngài, cái của chúng mày
 yourself	tự anh, tự chị, chính anh, chính mày, tự mày, tự mình

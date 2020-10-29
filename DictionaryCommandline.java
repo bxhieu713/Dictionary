@@ -1,3 +1,15 @@
+
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author BHieu
+ */
 import java.util.Scanner;
 
 public class DictionaryCommandline extends DictionaryManagement {
@@ -43,7 +55,7 @@ public class DictionaryCommandline extends DictionaryManagement {
                     + "\n5: Sửa từ "
                     + "\n6: Tìm kiếm từ "
                     + "\n7: Xuất dữ liệu ra file "
-                    + "\n0: Thoát\n");
+                    + "\n8: Thoát\n");
             Scanner scan = new Scanner(System.in);
             String sl = scan.nextLine();
             switch (sl) {
@@ -75,7 +87,8 @@ public class DictionaryCommandline extends DictionaryManagement {
             }
         }
     }
-    
+
+
     public void dictionarySearcher() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Nhập từ cần tìm kiếm: ");
@@ -93,3 +106,4 @@ public class DictionaryCommandline extends DictionaryManagement {
         new DictionaryCommandline().dictionaryAdvanced();
     }
 }
+
