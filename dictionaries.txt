@@ -3149,3 +3149,4 @@ yours	cái của anh, cái của chị, cái của ngài, cái của mày; cái 
 yourself	tự anh, tự chị, chính anh, chính mày, tự mày, tự mình
 youth	tuổi trẻ, tuổi xuân, tuổi thanh niên, tuổi niên thiếu
 zone	khu vực, miền, vùng
+zoom 	thu phóng

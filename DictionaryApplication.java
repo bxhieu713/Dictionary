@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -17,11 +18,20 @@ import javax.swing.JScrollBar;
  * @author BHieu
  */
 public class DictionaryApplication extends javax.swing.JFrame {
-
+    
+        Dictionary dictionary = new Dictionary();
+        ArrayList<Word> dic = new ArrayList<>();
+        private Dictionary List2 ;
+        private ArrayList<Word> arr;
+        private int index;
+        private DefaultListModel<String> model; // danh sasch hiển thị toàn bộ từ
+        private DefaultListModel<String> model1;// model danh sách từ tìm iếm gần đúng
+        private DefaultListModel<String> model2;// mode danh sách tìm kiếm chính xác
+    
     public void updateWord(Word word) {
         dictionary.changeWord(index,word);
-        mod.remove(index);
-        mod.add(index,word.getWord_target());
+        model.remove(index);
+        model.add(index,word.getWord_target());
         list.setSelectedIndex(index);
         this.dispose();
     }
@@ -42,42 +52,66 @@ public class DictionaryApplication extends javax.swing.JFrame {
     private void initComponents() {
 
         Edit_Frame = new javax.swing.JFrame();
+        jPanel3 = new javax.swing.JPanel();
         Target_edit = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        Edit_Button = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         Explain_edit = new javax.swing.JTextArea();
+        Edit_Button = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
         Add_Frame = new javax.swing.JFrame();
-        Target_add = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        Add_button = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        Target_add = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         Explain_add = new javax.swing.JTextArea();
+        Add_button = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        Search_frame = new javax.swing.JFrame();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        Target_search = new javax.swing.JList<>();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        Explain_search = new javax.swing.JTextPane();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        List_search = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        Check = new javax.swing.JCheckBox();
+        Button_search = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         list = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtExp = new javax.swing.JTextPane();
-        txtSearch = new javax.swing.JTextField();
-        add = new javax.swing.JButton();
-        Delete = new javax.swing.JButton();
-        Edit = new javax.swing.JButton();
         Save = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        Edit = new javax.swing.JButton();
+        Delete = new javax.swing.JButton();
+        add = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
+        Search_button = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
+        Edit_Frame.setTitle("Edit_Word");
         Edit_Frame.setBackground(new java.awt.Color(51, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel1.setText("Nhập nghĩa:");
+        jPanel3.setBackground(new java.awt.Color(0, 204, 204));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel3.setText("Nhập từ:");
+        Explain_edit.setColumns(20);
+        Explain_edit.setRows(5);
+        jScrollPane3.setViewportView(Explain_edit);
 
         Edit_Button.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Edit_Button.setText("OK");
@@ -88,62 +122,106 @@ public class DictionaryApplication extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setBackground(new java.awt.Color(255, 102, 153));
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(102, 102, 255));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Sửa từ");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel1.setText("Nhập nghĩa:");
 
-        Explain_edit.setColumns(20);
-        Explain_edit.setRows(5);
-        jScrollPane3.setViewportView(Explain_edit);
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel3.setText("Nhập từ:");
+
+        jLabel6.setBackground(new java.awt.Color(51, 153, 255));
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 48)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 51, 102));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Thay đổi từ");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addGap(52, 52, 52)
+                            .addComponent(Target_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Edit_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Target_edit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(33, 33, 33)
+                .addComponent(Edit_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51))
+        );
 
         javax.swing.GroupLayout Edit_FrameLayout = new javax.swing.GroupLayout(Edit_Frame.getContentPane());
         Edit_Frame.getContentPane().setLayout(Edit_FrameLayout);
         Edit_FrameLayout.setHorizontalGroup(
             Edit_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Edit_FrameLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(Edit_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(Edit_FrameLayout.createSequentialGroup()
-                        .addGroup(Edit_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3))
-                        .addGroup(Edit_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(Edit_FrameLayout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addComponent(Target_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(Edit_FrameLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(Edit_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Edit_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 27, Short.MAX_VALUE))
         );
         Edit_FrameLayout.setVerticalGroup(
             Edit_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Edit_FrameLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(Edit_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(Target_edit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(Edit_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addComponent(Edit_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        jPanel5.setBackground(new java.awt.Color(0, 255, 204));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel5.setText("Nhập nghĩa:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel4.setText("Nhập từ cần thêm:");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel5.setText("Nhập nghĩa:");
+        Target_add.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        Explain_add.setColumns(20);
+        Explain_add.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Explain_add.setRows(5);
+        jScrollPane4.setViewportView(Explain_add);
 
         Add_button.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         Add_button.setText("Thêm");
@@ -154,75 +232,229 @@ public class DictionaryApplication extends javax.swing.JFrame {
             }
         });
 
-        Explain_add.setColumns(20);
-        Explain_add.setRows(5);
-        jScrollPane4.setViewportView(Explain_add);
-
         jLabel9.setBackground(new java.awt.Color(102, 204, 255));
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 40)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 102, 102));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Thêm từ");
 
-        javax.swing.GroupLayout Add_FrameLayout = new javax.swing.GroupLayout(Add_Frame.getContentPane());
-        Add_Frame.getContentPane().setLayout(Add_FrameLayout);
-        Add_FrameLayout.setHorizontalGroup(
-            Add_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Add_FrameLayout.createSequentialGroup()
-                .addGroup(Add_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(Add_FrameLayout.createSequentialGroup()
-                        .addGroup(Add_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(Add_FrameLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(Add_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addGap(18, 18, 18)
-                                .addGroup(Add_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Target_add)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)))
-                            .addGroup(Add_FrameLayout.createSequentialGroup()
-                                .addGap(152, 152, 152)
-                                .addComponent(Add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Target_add)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(137, 137, 137)
+                        .addComponent(Add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(49, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        Add_FrameLayout.setVerticalGroup(
-            Add_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Add_FrameLayout.createSequentialGroup()
-                .addContainerGap()
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(36, 36, 36)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(Add_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Target_add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Target_add, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addGroup(Add_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(Add_FrameLayout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(Add_FrameLayout.createSequentialGroup()
+                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(52, 52, 52)
                         .addComponent(jLabel5)))
                 .addGap(35, 35, 35)
                 .addComponent(Add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(44, 44, 44))
+        );
+
+        javax.swing.GroupLayout Add_FrameLayout = new javax.swing.GroupLayout(Add_Frame.getContentPane());
+        Add_Frame.getContentPane().setLayout(Add_FrameLayout);
+        Add_FrameLayout.setHorizontalGroup(
+            Add_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        Add_FrameLayout.setVerticalGroup(
+            Add_FrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jLabel7.setText("jLabel7");
 
         jLabel8.setText("jLabel8");
 
+        jLabel10.setText("jLabel10");
+
+        Search_frame.setTitle("Search");
+        Search_frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                Search_frameWindowOpened(evt);
+            }
+        });
+
+        jPanel6.setBackground(new java.awt.Color(153, 255, 255));
+
+        jScrollPane7.setBorder(new javax.swing.border.MatteBorder(null));
+        jScrollPane7.setToolTipText("");
+        jScrollPane7.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jScrollPane7.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane7.setMinimumSize(new java.awt.Dimension(32, 32));
+
+        Target_search.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Target_search.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                Target_searchValueChanged(evt);
+            }
+        });
+        jScrollPane7.setViewportView(Target_search);
+
+        jScrollPane8.setBorder(new javax.swing.border.MatteBorder(null));
+        jScrollPane8.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        Explain_search.setBorder(null);
+        Explain_search.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        Explain_search.setFocusable(false);
+        jScrollPane8.setViewportView(Explain_search);
+
+        jLabel16.setText("Từ tiếng anh");
+
+        jLabel17.setText("Nghĩa:");
+
+        List_search.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        List_search.setAutoscrolls(false);
+        List_search.setCaretColor(new java.awt.Color(0, 51, 255));
+        List_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                List_searchActionPerformed(evt);
+            }
+        });
+        List_search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                List_searchKeyTyped(evt);
+            }
+        });
+
+        jLabel18.setText("Nhập từ cần tìm kiếm:");
+
+        Check.setText("Tìm từ gần đúng");
+        Check.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckActionPerformed(evt);
+            }
+        });
+
+        Button_search.setText("Tìm");
+        Button_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_searchActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17))
+                        .addContainerGap())
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(Check)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(342, 342, 342))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(List_search, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Button_search)
+                        .addGap(289, 289, 289))))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(jLabel18)
+                .addGap(1, 1, 1)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(List_search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Button_search))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Check)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane8)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(61, 61, 61))
+        );
+
+        javax.swing.GroupLayout Search_frameLayout = new javax.swing.GroupLayout(Search_frame.getContentPane());
+        Search_frame.getContentPane().setLayout(Search_frameLayout);
+        Search_frameLayout.setHorizontalGroup(
+            Search_frameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Search_frameLayout.createSequentialGroup()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 65, Short.MAX_VALUE))
+        );
+        Search_frameLayout.setVerticalGroup(
+            Search_frameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Search_frameLayout.createSequentialGroup()
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dictionary");
         setBackground(new java.awt.Color(102, 204, 255));
         setBounds(new java.awt.Rectangle(0, 0, 700, 200));
-        setPreferredSize(new java.awt.Dimension(760, 630));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setLocation(new java.awt.Point(10, 2));
+        setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
         });
+
+        jPanel2.setBackground(new java.awt.Color(51, 255, 255));
+
+        jLabel2.setBackground(new java.awt.Color(51, 153, 255));
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Từ Điển Anh-Việt");
+
+        jPanel1.setBackground(new java.awt.Color(153, 255, 255));
 
         jScrollPane1.setBorder(new javax.swing.border.MatteBorder(null));
         jScrollPane1.setToolTipText("");
@@ -230,6 +462,7 @@ public class DictionaryApplication extends javax.swing.JFrame {
         jScrollPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setMinimumSize(new java.awt.Dimension(32, 32));
 
+        list.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         list.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         list.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -241,10 +474,54 @@ public class DictionaryApplication extends javax.swing.JFrame {
         jScrollPane2.setBorder(new javax.swing.border.MatteBorder(null));
         jScrollPane2.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        txtExp.setBorder(null);
+        txtExp.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         txtExp.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         txtExp.setFocusable(false);
         jScrollPane2.setViewportView(txtExp);
+
+        Save.setBackground(new java.awt.Color(51, 255, 102));
+        Save.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        Save.setText("Lưu");
+        Save.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        Save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveActionPerformed(evt);
+            }
+        });
+
+        Edit.setBackground(new java.awt.Color(51, 153, 255));
+        Edit.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        Edit.setText("Sửa");
+        Edit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        Edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditActionPerformed(evt);
+            }
+        });
+
+        Delete.setBackground(new java.awt.Color(51, 153, 255));
+        Delete.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        Delete.setText("Xóa");
+        Delete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        Delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteActionPerformed(evt);
+            }
+        });
+
+        add.setBackground(new java.awt.Color(51, 153, 255));
+        add.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        add.setText("Thêm");
+        add.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Từ tiếng anh:");
+
+        jLabel12.setText("Nghĩa:");
 
         txtSearch.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtSearch.setAutoscrolls(false);
@@ -260,124 +537,139 @@ public class DictionaryApplication extends javax.swing.JFrame {
             }
         });
 
-        add.setBackground(new java.awt.Color(51, 153, 255));
-        add.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        add.setText("Thêm");
-        add.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        add.addActionListener(new java.awt.event.ActionListener() {
+        Search_button.setFont(new java.awt.Font("Times New Roman", 2, 20)); // NOI18N
+        Search_button.setText("Tra từ");
+        Search_button.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        Search_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addActionPerformed(evt);
+                Search_buttonActionPerformed(evt);
             }
         });
 
-        Delete.setBackground(new java.awt.Color(51, 153, 255));
-        Delete.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        Delete.setText("Xóa");
-        Delete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        Delete.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setBackground(new java.awt.Color(255, 0, 51));
+        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jButton1.setText("Thoát");
+        jButton1.setBorder(new javax.swing.border.MatteBorder(null));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeleteActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
-        Edit.setBackground(new java.awt.Color(51, 153, 255));
-        Edit.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        Edit.setText("Sửa");
-        Edit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        Edit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditActionPerformed(evt);
-            }
-        });
-
-        Save.setBackground(new java.awt.Color(51, 153, 255));
-        Save.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        Save.setText("Lưu");
-        Save.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        Save.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SaveActionPerformed(evt);
-            }
-        });
-
-        jPanel2.setBackground(new java.awt.Color(51, 255, 255));
-
-        jLabel2.setBackground(new java.awt.Color(51, 149, 239));
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 0, 51));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Từ Điển Anh-Việt");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 91, Short.MAX_VALUE))
+                    .addComponent(txtSearch))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(Search_button, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(137, 137, 137))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Search_button))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(jLabel12))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel11))))
+                    .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(64, 64, 64)
+                        .addComponent(Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)))
+                .addGap(90, 90, 90))
+        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 20, Short.MAX_VALUE))
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
-                        .addComponent(Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addGap(0, 49, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    Dictionary dictionary = new Dictionary();
-    ArrayList<Word> dic = new ArrayList<Word>();
-    private DefaultListModel<String> mod;
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        mod = new DefaultListModel<>();
-        list.setModel(mod);
+        model = new DefaultListModel<>();
+        list.setModel(model);
         try {
             File file = new File("D:\\Hoc\\Java\\Netbeans_project\\JavaLibrary1\\src\\dictionaries.txt");
             Scanner scan = new Scanner(file);
@@ -387,7 +679,7 @@ public class DictionaryApplication extends javax.swing.JFrame {
                 String target = str[0].trim();
                 String explain = str[1].trim();
                 Word word = new Word(target, explain);
-                mod.addElement(word.getWord_target());
+                model.addElement(word.getWord_target());
                 dic.add(word);
             }
             dictionary.getList(dic);
@@ -398,82 +690,13 @@ public class DictionaryApplication extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_formWindowOpened
-
-    private void listValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listValueChanged
-        // TODO add your handling code here:
-        if(!list.isSelectionEmpty()){
-            int index = list.getSelectedIndex();
-            Word word = dic.get(index);
-            txtExp.setText(word.getWord_explain());
-        }
-    }//GEN-LAST:event_listValueChanged
-
-    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
-        // TODO add your handling code here:
-        String text = txtSearch.getText();
-        text += evt.getKeyChar(); // text là đoạn vừa gõ
-        text.toLowerCase();
-        for (int i = 0; i < mod.size(); i ++) { 
-            String val = mod.elementAt(i); 
-            val = val.toLowerCase();
-            if(val.startsWith(text)) {
-                list.setSelectedIndex(i); // hiển thị từ có bắt đầu bằng text
-                JScrollBar scrollBar = jScrollPane1.getVerticalScrollBar();
-                scrollBar.setValue(i*26 );
-                return;
-            }
-        }
-        txtExp.setText("Không thấy từ cần tìm kiếm! Vui lòng nhập lại ");       
-        list.clearSelection();
-    }//GEN-LAST:event_txtSearchKeyTyped
-
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-            // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchActionPerformed
-
-    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-        Add_Frame.pack();   
-        Add_Frame.setVisible(true);
-    }//GEN-LAST:event_addActionPerformed
-
-    private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
-        // TODO add your handling code here:
-        if(!list.isSelectionEmpty()){
-            int result = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn xóa từ này không?");
-            if(result == JOptionPane.YES_OPTION){
-                int index = list.getSelectedIndex();
-                mod.removeElementAt(index);
-                dictionary.removeWord(index);
-                txtExp.setText("");
-                JOptionPane.showMessageDialog(null,"Xoá từ thành công");
-            }
-        }else {
-            JOptionPane.showMessageDialog(rootPane,"Chọn từ trong danh sách để xóa!");
-        }
-    }//GEN-LAST:event_DeleteActionPerformed
-    private int index;
-    private void EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditActionPerformed
-        
-        if(!list.isSelectionEmpty()) {
-            Edit_Frame.pack();
-            Edit_Frame.setVisible(true);
-            index = list.getSelectedIndex(); 
-            Word word = dictionary.getWord(index);
-            Target_edit.setText(word.getWord_target());
-            Explain_edit.setText(word.getWord_explain());
-               
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Chọn từ trước khi sửa");
-        }
-    }//GEN-LAST:event_EditActionPerformed
-
+    
     private void Edit_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edit_ButtonActionPerformed
         index = list.getSelectedIndex();
         Word word = new Word(Target_edit.getText(), Explain_edit.getText());
         dictionary.changeWord(index, word);
-        mod.remove(index);
-        mod.add(index, word.getWord_target());
+        model.remove(index);
+        model.add(index, word.getWord_target());
         list.setSelectedIndex(index);
         JOptionPane.showMessageDialog(rootPane,"Sửa từ thành công");
         Edit_Frame.dispose();  // kết thúc cửa sổ JFrame
@@ -483,10 +706,10 @@ public class DictionaryApplication extends javax.swing.JFrame {
         Word word  = new Word(Target_add.getText(), Explain_add.getText());
         
         // Nếu từ mới > từ cuối thì thêm vào cuối danh sách :
-        if(word.getWord_target().compareToIgnoreCase(mod.lastElement()) > 0){
-            mod.addElement(word.getWord_target());
+        if(word.getWord_target().compareToIgnoreCase(model.lastElement()) > 0){
+            model.addElement(word.getWord_target());
             dictionary.addWord(word);
-            list.setSelectedIndex(mod.getSize()-1);
+            list.setSelectedIndex(model.getSize()-1);
                 
             JScrollBar scrollBar = jScrollPane1.getVerticalScrollBar(); // cuộn thanh cuộn đến từ mới
             scrollBar.setValue(scrollBar.getMaximum());
@@ -497,8 +720,8 @@ public class DictionaryApplication extends javax.swing.JFrame {
         }
         
         // Nếu từ mới < từ cuối thì thêm vào đầu danh sách :
-        if(word.getWord_target().compareToIgnoreCase(mod.getElementAt(0)) < 0){
-            mod.add(0,word.getWord_target());
+        if(word.getWord_target().compareToIgnoreCase(model.getElementAt(0)) < 0){
+            model.add(0,word.getWord_target());
             dictionary.addWord(0,word);
             list.setSelectedIndex(0);
                 
@@ -509,18 +732,18 @@ public class DictionaryApplication extends javax.swing.JFrame {
             Add_Frame.dispose();
             return;
         }
-        for (int i = 0; i < mod.size() ; i++) {
-            if(word.getWord_target().compareToIgnoreCase(mod.getElementAt(i)) == 0) { 
+        for (int i = 0; i < model.size() ; i++) {
+            if(word.getWord_target().compareToIgnoreCase(model.getElementAt(i)) == 0) { 
                 Target_add.setText("");
                 Explain_add.setText("");
                 JOptionPane.showMessageDialog(null,"Từ này đã có trong danh sách rồi");  
                 return;
             }
            // nếu từ mới > một từ nào đó (giả sử ở vị trí i) và < từ ở vị trí i + 1 thì thêm từ mới vào i + 1 
-            if(word.getWord_target().compareToIgnoreCase(mod.getElementAt(i)) > 0 &&
-                    word.getWord_target().compareToIgnoreCase(mod.getElementAt(i+1)) < 0) {
+            if(word.getWord_target().compareToIgnoreCase(model.getElementAt(i)) > 0 &&
+                    word.getWord_target().compareToIgnoreCase(model.getElementAt(i+1)) < 0) {
                 //arr.add(i+1,newWord);
-                mod.add(i+1,word.getWord_target());
+                model.add(i+1,word.getWord_target());
                 dictionary.addWord(i+1,word);
                 list.setSelectedIndex(i+1);
                 JScrollBar scrollBar = jScrollPane1.getVerticalScrollBar();
@@ -534,22 +757,193 @@ public class DictionaryApplication extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_Add_buttonActionPerformed
 
+   
+    
+    
+    private void Target_searchValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_Target_searchValueChanged
+        // TODO add your handling code here:
+        if(!Target_search.isSelectionEmpty()){
+            int i = Target_search.getSelectedIndex();
+            Word word = arr.get(i);
+            Explain_search.setText(word.getWord_explain());
+            
+        }
+    }//GEN-LAST:event_Target_searchValueChanged
+
+    private void List_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_List_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_List_searchActionPerformed
+
+    private void List_searchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_List_searchKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_List_searchKeyTyped
+
+    private void Search_frameWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_Search_frameWindowOpened
+        // TODO add your handling code here:
+        List2 = new Dictionary();
+        try {
+            File file = new File("D:\\Hoc\\Java\\Netbeans_project\\JavaLibrary1\\src\\dictionaries.txt");
+            Scanner scan = new Scanner(file);
+            while (scan.hasNextLine()) {
+                String line = scan.nextLine();
+                String[] str = line.split("\t");
+                String target = str[0].trim();
+                String explain = str[1].trim();
+                Word word = new Word(target, explain);
+//                model.addElement(word.getWord_target());
+                List2.addWord(word);
+            }
+            
+        } catch (FileNotFoundException e) {
+            System.out.println("Error");
+            e.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_Search_frameWindowOpened
+
+    
+    private void Button_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_searchActionPerformed
+        Explain_search.setText("");
+        if(Check.isSelected()) {// nếu có chọn vào ô gần đúng thì khởi tạo một model của danh sách từ gần đúng
+        model1 = new DefaultListModel<>();// nếu không có dòng này thì khi mỗi lần bấm vào nút tìm kiếm này sẽ xuất hiện từ tìm kiếm trong danh sách kết quả
+        arr = new ArrayList<>(); 
+        Target_search.setModel(model1);
+        approxi approximateWord = new approxi(List_search.getText());
+        
+        for(int i = 0; i < List2.getSize(); i++) {
+            Word word = new Word(List2.getWord(i));
+            if(approximateWord.soSanh(word.getWord_target().toLowerCase()) == true) {
+                  model1.addElement(word.getWord_target());
+                  arr.add(word);
+            }
+        }
+            if(model1.isEmpty()) {
+                Explain_search.setText("Không tìm thấy từ này");
+            }
+        } else if(!Check.isSelected()){ // khi không chọn vào ô tìm gần đúng thì mặc định sẽ tạo một model khác với model khi click vào ô tìm từ gần đúng
+            model2 = new DefaultListModel<>(); // khởi tạo model mới nếu mà không có dòng này thì cái danh sách từ sẽ hiện ngày càng nhiều từ tìm kiếm trong danh sách
+            Target_search.setModel(model2); 
+            arr = new ArrayList<>(); 
+            Target_search.setModel(model2);
+            int idx = binarySearch(0, List2.getSize() - 1, List_search.getText()); // giá trị trả về -1 nếu không tim thấy
+            if (idx != -1) {
+                Word word = new Word(List2.getWord(idx));
+                 model2.addElement(word.getWord_target());
+                 arr.add(word);
+            } else {
+                Explain_search.setText("Không tìm thấy từ này");
+            }
+        
+        
+    }//GEN-LAST:event_Button_searchActionPerformed
+    }
+    private void CheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckActionPerformed
+        if(Check.isSelected()) {                // khi check được text
+            model1 = new DefaultListModel<>();  // khởi tạo danh sách từ gần đúng
+            Target_search.setModel(model1);
+            Explain_search.setText("");
+        }
+        else {
+            model2 = new DefaultListModel<>();  // khởi tạo danh sách từ cần tìm chính xác bằng binarySearch
+            Target_search.setModel(model2);
+            Explain_search.setText("");
+        }
+    }//GEN-LAST:event_CheckActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void Search_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Search_buttonActionPerformed
+        Search_frame.pack();
+        Search_frame.setVisible(true);
+    }//GEN-LAST:event_Search_buttonActionPerformed
+
+    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
+        // TODO add your handling code here:
+        String text = txtSearch.getText();
+        text += evt.getKeyChar(); // text là đoạn vừa gõ
+        text.toLowerCase();
+        for (int i = 0; i < model.size(); i ++) {
+            String val = model.elementAt(i);
+            val = val.toLowerCase();
+
+            if(val.startsWith(text)) {
+                list.setSelectedIndex(i); // hiển thị từ có bắt đầu bằng text
+                JScrollBar scrollBar = jScrollPane1.getVerticalScrollBar();
+                scrollBar.setValue(i*26 );
+                return;
+            }
+        }
+        txtExp.setText("Không thấy từ cần tìm kiếm! Vui lòng nhập lại ");
+        list.clearSelection();
+    }//GEN-LAST:event_txtSearchKeyTyped
+
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
+
+    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+        Add_Frame.pack();
+        Add_Frame.setVisible(true);
+    }//GEN-LAST:event_addActionPerformed
+
+    private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
+        if(!list.isSelectionEmpty()){
+            int result = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn xóa từ này không?");
+            if(result == JOptionPane.YES_OPTION){
+                int index = list.getSelectedIndex();
+                model.removeElementAt(index);
+                dictionary.removeWord(index);
+                txtExp.setText("");
+                JOptionPane.showMessageDialog(null,"Xoá từ thành công");
+            }
+        }else {
+            JOptionPane.showMessageDialog(rootPane,"Chọn từ trong danh sách để xóa!");
+        }
+    }//GEN-LAST:event_DeleteActionPerformed
+
+    private void EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditActionPerformed
+
+        if(!list.isSelectionEmpty()) {
+            Edit_Frame.pack();
+            Edit_Frame.setVisible(true);
+            index = list.getSelectedIndex();
+            Word word = dictionary.getWord(index);
+            Target_edit.setText(word.getWord_target());
+            Explain_edit.setText(word.getWord_explain());
+
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Chọn từ trước khi sửa");
+        }
+    }//GEN-LAST:event_EditActionPerformed
+
     private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
         try {
             int result = JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn lưu từ điển không?");
             if(result == JOptionPane.YES_OPTION){
-            FileWriter fw = new FileWriter("D:\\Hoc\\Java\\Netbeans_project\\JavaLibrary1\\src\\dictionaries.txt");
-            for (int i = 0; i < dic.size(); i++) {
-                fw.write( dic.get(i).getWord_target() + '\t' + dic.get(i).getWord_explain() + '\n');
+                try (FileWriter fw = new FileWriter("D:\\Hoc\\Java\\Netbeans_project\\JavaLibrary1\\src\\dictionaries.txt")) {
+                    for (int i = 0; i < dic.size(); i++) {
+                        fw.write( dic.get(i).getWord_target() + '\t' + dic.get(i).getWord_explain() + '\n');
+                    }
+                }
+                System.out.println("Successfully wrote to the file.");
             }
-            fw.close();
-            System.out.println("Successfully wrote to the file.");
-            }
-        } catch (Exception e) {
+        } catch (HeadlessException | IOException e) {
             System.out.println(e);
-            e.printStackTrace();
         }
     }//GEN-LAST:event_SaveActionPerformed
+
+    private void listValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listValueChanged
+        // TODO add your handling code here:
+        if(!list.isSelectionEmpty()){
+            int index = list.getSelectedIndex();
+            Word word = dic.get(index);
+            txtExp.setText(word.getWord_explain());
+        }
+    }//GEN-LAST:event_listValueChanged
 
     /**
      * @param args the command line arguments
@@ -579,27 +973,41 @@ public class DictionaryApplication extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DictionaryApplication().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new DictionaryApplication().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame Add_Frame;
     private javax.swing.JButton Add_button;
+    private javax.swing.JButton Button_search;
+    private javax.swing.JCheckBox Check;
     private javax.swing.JButton Delete;
     private javax.swing.JButton Edit;
     private javax.swing.JButton Edit_Button;
     private javax.swing.JFrame Edit_Frame;
     private javax.swing.JTextArea Explain_add;
     private javax.swing.JTextArea Explain_edit;
+    private javax.swing.JTextPane Explain_search;
+    private javax.swing.JTextField List_search;
     private javax.swing.JButton Save;
+    private javax.swing.JButton Search_button;
+    private javax.swing.JFrame Search_frame;
     private javax.swing.JTextField Target_add;
     private javax.swing.JTextField Target_edit;
+    private javax.swing.JList<String> Target_search;
     private javax.swing.JButton add;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -608,15 +1016,78 @@ public class DictionaryApplication extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JList<String> list;
     private javax.swing.JTextPane txtExp;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
-}
 
+    public int binarySearch(int first, int last, String s) {
+        if (last >= first) {
+            int mid = first + (last - first) / 2;
+            Word word = new Word(dictionary.getWord(mid));
+
+            if (word.getWord_target().equals(s))
+                return mid;
+
+            if (word.getWord_target().compareTo(s) > 0)
+                return binarySearch(first, mid - 1, s);
+
+            else if (word.getWord_target().compareTo(s) < 0)
+                return binarySearch(mid + 1, last, s);
+        }
+        return -1;
+    }
+
+
+    private static class approxi {
+
+       private final String s;
+        private final int saiso;
+        
+        public approxi(String nhap) {
+            s = nhap.trim();
+            saiso = (int) Math.round(s.length() * 0.3);
+        }
+        
+        public boolean soSanh(String s1) {
+            if (s1.length() < (s.length() - saiso)|| s1.length() > (s.length() + saiso)) { //kiểm tra độ dài string so sánh :ít hay hơn 30% thì loại
+                return false;
+            }
+            int i =0;
+            int j =0;
+            int loi =0;
+            while( i < s.length() && j < s1.length()) { // cho vòng lặp chạy từ i đến hết s và j đến hết s1
+                if (s.charAt(i) != s1.charAt(j)) { // nếu s(i) != s1(j) thì lỗi + 1, so sánh các từ lân cận tiếp theo của cả 2 chuỗi
+                    loi++;
+                    for(int k = 1; k <= saiso; k++) {   // xét trong khoảng sai số
+                        if((i+k < s.length()) && s1.charAt(j) == s.charAt(i + k)) { //Trong khoảng sai số nếu có  
+                            i+= k;                                                 //thì chỉnh lại vị trí i,j là chỉ số của 2 string đó
+                            break;
+                        } else if ((j+k <s1.length()) && s.charAt(i) == s1.charAt(j+k)) {
+                            j+=k;
+                            break;
+                        }
+                    }
+                }
+                i++;
+                j++;
+            }
+            loi +=s.length() - i + s1.length() - j; // khi 1 trong 2 string đẫ hết thì cộng lỗi vào
+           return loi <= saiso;
+        }
+    }
+
+}
 

@@ -43,6 +43,10 @@ public class Dictionary {
     public void getList(ArrayList<Word> _list) {
         this.dictionary = _list;
     }
+    
+    public int getSize() {
+        return this.dictionary.size();
+    }
 
     public void printList() {
         System.out.printf("%-5s|%-20s|%-20s\n", "No", "English", "Vietnamese");

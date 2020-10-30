@@ -19,6 +19,10 @@ public class Word {
         this.word_target = word_target;
         this.word_explain = word_explain;
     }
+    public Word(Word word){
+        this.word_target = word.getWord_target();
+        this.word_explain = word.getWord_explain();
+    }
 
     public String getWord_explain() {
         return word_explain;
