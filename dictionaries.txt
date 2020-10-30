@@ -241,6 +241,7 @@ ban	cấm, cấm chỉ; sự cấm
 band	băng, đai, nẹp
 bandage	dải băng; băng bó
 bank	bờ
+banner	ảnh bìa
 bar	quán bán rượu
 bargain	sự mặc cả, sự giao kèo mua bán
 barrier	đặt chướng ngại vật
@@ -1214,6 +1215,7 @@ genuine	thành thật, chân thật; xác thực
 genuinely	thành thật, chân thật
 geography	địa lý, khoa địa lý
 get	được, có được
+gg	dd
 giant	người khổng lồ, người phi thường; khổng lồ, phi thường
 gift	quà tặng
 girl	con gái
@@ -3149,4 +3151,4 @@ yours	cái của anh, cái của chị, cái của ngài, cái của mày; cái 
 yourself	tự anh, tự chị, chính anh, chính mày, tự mày, tự mình
 youth	tuổi trẻ, tuổi xuân, tuổi thanh niên, tuổi niên thiếu
 zone	khu vực, miền, vùng
-zoom 	thu phóng
+zoom	thu phóng
